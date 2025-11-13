@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comparison Result - Image Steganography</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #333;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            color: white;
+        }
+
+        h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            font-weight: 300;
+        }
+
+        .info-banner {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 30px;
+            color: white;
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .info-item {
+            text-align: center;
+        }
+
+        .info-label {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            margin-bottom: 5px;
+        }
+
+        .info-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .card {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .card-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #333;
+        }
+
+        .comparison-section {
+            margin-bottom: 30px;
+        }
+
+        .message-box {
+            padding: 20px;
+            background: #f9f9f9;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+
+        .message-label {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .message-content {
+            font-size: 1.1rem;
+            color: #333;
+            word-break: break-all;
+            padding: 10px;
+            background: white;
+            border-radius: 5px;
+            min-height: 50px;
+        }
+
+        .match-status {
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            margin-bottom: 30px;
+            animation: slideIn 0.5s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .match-status.success {
+            background: linear-gradient(135deg, #4caf50 0%, #45a049 100%);
+            color: white;
+        }
+
+        .match-status.failure {
+            background: linear-gradient(135deg, #f44336 0%, #d32f2f 100%);
+            color: white;
+        }
+
+        .match-icon {
+            font-size: 4rem;
+            margin-bottom: 15px;
+        }
+
+        .match-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .match-description {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            border: 2px solid #e0e0e0;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 8px;
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #667eea;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, #4caf50 0%, #45a049 100%);
+            color: white;
+        }
+
+        .btn-success:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(76, 175, 80, 0.4);
+        }
+
+        .btn-back {
+            background: #ff9800;
+        }
+
+        .btn-back:hover {
+            background: #f57c00;
+            transform: translateY(-2px);
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+        }
+
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 15px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .no-data {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+        }
+
+        .no-data-icon {
+            font-size: 4rem;
+            margin-bottom: 15px;
+            opacity: 0.5;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🔐 Image Steganography</h1>
+            <p class="subtitle">Without Embedding by Carrier Secret Information</p>
+        </header>
+
+        <div class="info-banner" id="systemInfo">
+            <div class="info-item">
+                <div class="info-label">Device</div>
+                <div class="info-value">Loading...</div>
+            </div>
+            <div class="info-item">
+                <div class="info-label">Capacity</div>
+                <div class="info-value">Loading...</div>
+            </div>
+            <div class="info-item">
+                <div class="info-label">Noise Dimension</div>
+                <div class="info-value">Loading...</div>
+            </div>
+        </div>
+
+        <div class="card">
+            <button class="btn btn-primary btn-back" id="backBtn">
+                <span>⬅️</span>
+                <span>Back: Extract Message</span>
+            </button>
+
+            <div class="card-header">
+                <div class="card-icon">📊</div>
+                <h2 class="card-title">Comparison Result</h2>
+            </div>
+
+            <div class="loading" id="loadingSection">
+                <div class="spinner"></div>
+                <div>Loading comparison data...</div>
+            </div>
+
+            <div id="noDataSection" class="no-data" style="display: none;">
+                <div class="no-data-icon">⚠️</div>
+                <h3>No Comparison Data Available</h3>
+                <p>Please hide and extract a message first.</p>
+                <button class="btn btn-primary" style="margin-top: 20px;" onclick="window.location.href='/'">
+                    <span>🏠</span>
+                    <span>Start Over</span>
+                </button>
+            </div>
+
+            <div id="resultSection" style="display: none;">
+                <div class="match-status" id="matchStatus">
+                    <div class="match-icon" id="matchIcon"></div>
+                    <div class="match-title" id="matchTitle"></div>
+                    <div class="match-description" id="matchDescription"></div>
+                </div>
+
+                <div class="comparison-section">
+                    <h3 style="margin-bottom: 20px; color: #333;">Message Comparison</h3>
+                    
+                    <div class="message-box">
+                        <div class="message-label">🔒 Original Hidden Message:</div>
+                        <div class="message-content" id="originalMessage"></div>
+                    </div>
+
+                    <div class="message-box">
+                        <div class="message-label">🔓 Extracted Message:</div>
+                        <div class="message-content" id="extractedMessage"></div>
+                    </div>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-label">Original Length</div>
+                        <div class="stat-value" id="originalLength">-</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Extracted Length</div>
+                        <div class="stat-value" id="extractedLength">-</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Match Status</div>
+                        <div class="stat-value" id="matchPercent">-</div>
+                    </div>
+                </div>
+
+                <button class="btn btn-success" onclick="window.location.href='/'">
+                    <span>🔄</span>
+                    <span>Start New Session</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Load system info
+        fetch('/info')
+            .then(r => r.json())
+            .then(data => {
+                const infoBanner = document.getElementById('systemInfo');
+                infoBanner.innerHTML = `
+                    <div class="info-item">
+                        <div class="info-label">Device</div>
+                        <div class="info-value">${data.device}</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Capacity</div>
+                        <div class="info-value">${data.capacity} bits</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Noise Dimension</div>
+                        <div class="info-value">${data.noise_dim}</div>
+                    </div>
+                `;
+            });
+
+        // Load comparison data
+        async function loadComparison() {
+            try {
+                const response = await fetch('/get-comparison');
+                const data = await response.json();
+
+                document.getElementById('loadingSection').style.display = 'none';
+
+                if (!data.success || (!data.original_message && !data.extracted_message)) {
+                    document.getElementById('noDataSection').style.display = 'block';
+                    return;
+                }
+
+                const originalMsg = data.original_message || '';
+                const extractedMsg = data.extracted_message || '';
+                const match = data.match;
+
+                // Show results
+                document.getElementById('resultSection').style.display = 'block';
+
+                // Set match status
+                const matchStatus = document.getElementById('matchStatus');
+                if (match) {
+                    matchStatus.className = 'match-status success';
+                    document.getElementById('matchIcon').textContent = '✅';
+                    document.getElementById('matchTitle').textContent = 'Perfect Match!';
+                    document.getElementById('matchDescription').textContent = 'The extracted message matches the original hidden message exactly.';
+                } else {
+                    matchStatus.className = 'match-status failure';
+                    document.getElementById('matchIcon').textContent = '❌';
+                    document.getElementById('matchTitle').textContent = 'Mismatch Detected';
+                    document.getElementById('matchDescription').textContent = 'The extracted message does not match the original hidden message.';
+                }
+
+                // Set messages
+                document.getElementById('originalMessage').textContent = originalMsg || '(No message)';
+                document.getElementById('extractedMessage').textContent = extractedMsg || '(No message)';
+
+                // Set stats
+                document.getElementById('originalLength').textContent = originalMsg.length + ' chars';
+                document.getElementById('extractedLength').textContent = extractedMsg.length + ' chars';
+                document.getElementById('matchPercent').textContent = match ? '100%' : '0%';
+
+            } catch (error) {
+                document.getElementById('loadingSection').style.display = 'none';
+                document.getElementById('noDataSection').style.display = 'block';
+                console.error('Error loading comparison:', error);
+            }
+        }
+
+        // Load on page load
+        loadComparison();
+
+        document.getElementById('backBtn').addEventListener('click', () => {
+            window.location.href = '/extract-page';
+        });
+    </script>
+</body>
+</html>
